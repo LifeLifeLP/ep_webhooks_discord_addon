@@ -1,0 +1,15 @@
+{
+    "discord_webhook_url": "your webhook url",
+    "mysql_db_server": "mysql db ip/hostname",
+    "mysql_db_port": "mysql port",
+    "mysql_db_user": "mysql user",
+    "mysql_db_password": "mysql password",
+    "mysql_db_name": "mysql database",
+    "hook_secret": "secret header",
+    "hook_rev_trigger": "how many revs for a hook",
+    "hook_show_user": "yes/no",
+    "hook_show_ip": "yes/no",
+    "hook_show_rev": "yes/no",
+    "hook_show_user_color": "yes/no",
+    "hook_show_dif": "yes/no"
+}
