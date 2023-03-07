@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This is a self-running addon to ep_webhooks (https://github.com/citizenos/ep_webhooks) that get more data from etherpads (mysql) database to provide a better discord webhook experience. (at least thats the plan)",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
