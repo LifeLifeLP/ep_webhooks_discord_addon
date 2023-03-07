@@ -1,0 +1,16 @@
+discord_webhook_url="your webhook url"
+#You can copy these from your etherpad settings
+mysql_db_server="mysql db ip/hostname"
+mysql_db_port="mysql port"
+mysql_db_user="mysql user"
+mysql_db_password="mysql password"
+mysq_db_name=mysql databas"
+#webhook settings
+hook_secret="secret header"
+hook_rev_trigger="how many revs for a hook"
+hook_show_user="yes/no"
+hook_show_ip="yes/no"
+hook_show_rev="yes/no"
+hook_show_user_color="yes/no"
+#i dont know if this would be too much / how i get it from the db but it might be possible
+#hook_show_dif="yes/no"
