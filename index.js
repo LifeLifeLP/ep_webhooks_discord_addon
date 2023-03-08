@@ -121,10 +121,12 @@ app.post('/hook', (req, res) => {
   console.log(rev)
   console.log(padName)
   console.log(ipstring)
+  const userId = JSON.parse(JSON.stringify(req.body))
+  console.log(userId)
   const prepardUsername = padIPv4(JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/))
 
   const data = {
-    content: '',
+    content: 'userId',
     avatar_url: 'https://purepng.com/public/uploads/large/big-green-watermelon-t18.png',
     username: 'ETHERPAD-UPDATE:' + prepardUsername
 ,
