@@ -1,5 +1,7 @@
 {
+    "verbose": "yes/no",
     "discord_webhook_url": "your webhook url",
+    "webhook_input_port": 3000,
     "mysql_db_server": "mysql db ip/hostname",
     "mysql_db_port": "mysql port",
     "mysql_db_user": "mysql user",
