@@ -104,4 +104,42 @@ function readSettings(settingsFilePath) {
 const app = express()
 //Tell it to use JSON
 app.use(bodyParser.json())
-app.listen(PORT, () => console.log(`Express Server now running on port ${PORT}`))
+app.listen(webhook_input_port, () => console.log(`Express Server now running on port ${webhook_input_port}`))
+app.post('/hook', (req, res) => {
+  console.log(req.body)
+  console.log(JSON.stringify(req.body))
+  res.status(200).end()
+  // The data to send
+  const ipstring = 'Von: ' + JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)
+  const str = JSON.stringify(req.body)
+  const start = str.indexOf('"pads":{') + 8
+  const end = str.indexOf(':[{')
+  const padName = 'Welches Pad: ' + str.substring(start, end)
+  const rev = str.match(/"rev":(\d+)/)[1]
+  console.log(rev)
+  console.log(padName)
+  console.log(ipstring)
+  const prepardUsername = padIPv4(JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/))
+
+  const data = {
+    content: '',
+    avatar_url: 'https://purepng.com/public/uploads/large/big-green-watermelon-t18.png',
+    username: 'ETHERPAD-UPDATE:' + prepardUsername
+,
+    embeds: [{
+      title: ipstring,
+      description: padName + ' REV: ' + rev
+    }]
+  }
+
+  // Make the POST request
+  fetch(discord_webhook_url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(res => console.log('Webhook was send to Discord!'))
+    .catch(err => console.error(err))
+})
