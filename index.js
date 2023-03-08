@@ -21,9 +21,6 @@ let hook_show_rev = "changeme";
 let hook_show_user_color = "changeme";
 let hook_show_dif = "changme";
 
-//Setup
-const settingsFilePath = "./settings.json";
-
 function padIPv4(ipv4) {
   // extends a IPv4 address to full length
   const work = String(ipv4);
@@ -99,6 +96,11 @@ function readSettings(settingsFilePath) {
     }
   });
 }
+
+//Setup
+const settingsFilePath = "./settings.json";
+readSettings(settingsFilePath);
+
 
 //Settings are read, now start Express Server
 const app = express()
