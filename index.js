@@ -108,11 +108,10 @@ const app = express()
 app.use(bodyParser.json())
 app.listen(webhook_input_port, () => console.log(`Express Server now running on port ${webhook_input_port}`))
 app.post('/hook', (req, res) => {
-  console.log(req.body)
-  console.log(JSON.stringify(req.body))
+  console.log('Input in String Format:' + JSON.stringify(req.body))
   res.status(200).end()
   // The data to send
-  const ipstring = 'Von: ' + JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)
+  const ipstring = 'Send from IP: ' + JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)
   const str = JSON.stringify(req.body)
   const start = str.indexOf('"pads":{') + 8
   const end = str.indexOf(':[{')
@@ -121,8 +120,9 @@ app.post('/hook', (req, res) => {
   console.log(rev)
   console.log(padName)
   console.log(ipstring)
-  const userId = JSON.parse(JSON.stringify(req.body))
-  console.log(userId)
+  const obj = JSON.parse(str)
+  const userId = obj.pads["Dokument-2"][0].userId
+  console.log('User ID is: ' + userId)
   const prepardUsername = padIPv4(JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/))
 
   const data = {
