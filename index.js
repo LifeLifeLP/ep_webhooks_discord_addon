@@ -136,7 +136,7 @@ app.post('/hook', (req, res) => {
   const data = {
     content: userId + '\n ' + padName, // Testing Show UserID
     avatar_url: 'https://purepng.com/public/uploads/large/big-green-watermelon-t18.png',
-    username: 'ETHERPAD-UPDATE:' + preparedIP //Change thos to the Username, but needs a check for null or false first
+    username: 'ETHERPAD-UPDATE:' + preparedIP //Change this to the Username, but needs a check for null or false first
 
 ,
     embeds: [{
