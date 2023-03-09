@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import mysql from "mysql";
 
 let discord_webhook_url = "changeme";
-let webhook_input_port = "changeme";
+let webhook_input_port = 3000;
 
 let mysql_db_server = "changeme";
 let mysql_db_port = "changeme";
