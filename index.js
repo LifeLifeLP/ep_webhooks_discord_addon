@@ -108,27 +108,36 @@ const app = express()
 app.use(bodyParser.json())
 app.listen(webhook_input_port, () => console.log(`Express Server now running on port ${webhook_input_port}`))
 app.post('/hook', (req, res) => {
-  console.log('Input in String Format:' + JSON.stringify(req.body))
+  //Show the content of the webhook as a string
+  const hookasstring = JSON.stringify(req.body)
+  console.log('Input in String Format:' + hookasstring)
+  //Respond the the hook from etherpad
   res.status(200).end()
-  // The data to send
-  const ipstring = 'Send from IP: ' + JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)
-  const str = JSON.stringify(req.body)
-  const start = str.indexOf('"pads":{') + 8
-  const end = str.indexOf(':[{')
-  const padName = 'Welches Pad: ' + str.substring(start, end)
-  const rev = str.match(/"rev":(\d+)/)[1]
-  console.log(rev)
-  console.log(padName)
-  console.log(ipstring)
-  const obj = JSON.parse(str)
-  const userId = obj.pads["Dokument-2"][0].userId
-  console.log('User ID is: ' + userId)
-  const prepardUsername = padIPv4(JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/))
+  //Prepare the data that is send to discord
+  //Getting the IP that send the change
+  const ipstring = 'Send from IP: ' + hookasstring.match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)
 
+  const start = hookasstring.indexOf('"pads":{') + 8
+  const end = hookasstring.indexOf(':[{')
+  const padName = 'Pad: ' + hookasstring.substring(start, end)
+  const rev = hookasstring.match(/"rev":(\d+)/)[1]
+  const obj = JSON.parse(hookasstring)
+  const userId = obj.pads[0][0].userId // Get the userId from the pad
+  const preparedIP = padIPv4(JSON.stringify(req.body).match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)) //Convert IP to full lenght
+  //Logging
+  console.log('Source IP: ' + ipstring)
+  console.log('Rev: ' + rev)
+  console.log('Pad: ' + padName)
+  console.log('UserID: ' + userId)
+
+  //Setup data for sending
+  // https://birdie0.github.io/discord-webhooks-guide/structure/embeds.html
+  // TODO Make a fancy layout like this ^
   const data = {
-    content: 'userId',
+    content: userId + '\n ' + padName, // Testing Show UserID
     avatar_url: 'https://purepng.com/public/uploads/large/big-green-watermelon-t18.png',
-    username: 'ETHERPAD-UPDATE:' + prepardUsername
+    username: 'ETHERPAD-UPDATE:' + preparedIP //Change thos to the Username, but needs a check for null or false first
+
 ,
     embeds: [{
       title: ipstring,
@@ -144,6 +153,6 @@ app.post('/hook', (req, res) => {
     },
     body: JSON.stringify(data)
   })
-    .then(res => console.log('Webhook was send to Discord!'))
+    .then(res => console.log('Webhook send to Discord!'))
     .catch(err => console.error(err))
 })
